@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Copa Tegucigalpa Open — Finals Day · PadelFlow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700;800;900&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --bg: #090e09; --bg2: #0d1410; --bg3: #111e11; --bg4: #16201a;
+    --border: #1a2e1a; --border2: #223322; --border3: #2d4a2d;
+    --accent: #a3e635; --green: #22c55e; --red: #ef4444;
+    --gold: #f59e0b; --silver: #94a3b8; --blue: #3b82f6;
+    --text: #e5e7eb; --text2: #9ca3af; --text3: #6b7280; --text4: #4b5563;
+    --display: 'Barlow Condensed', sans-serif; --body: 'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--text); font-family: var(--body); min-height: 100vh; }
+  ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+  @keyframes fadeIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+  .fade-in { animation: fadeIn .3s ease forwards; }
+
+  /* ── TOP BAR ────────────────────────────────── */
+  .top-bar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(9,14,9,.92); backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 12px 16px;
+    display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  }
+  .top-bar-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
+  .top-logo { width: 28px; height: 28px; background: var(--accent); border-radius: 6px; display: flex; align-items: center; justify-content: center; font-family: var(--display); font-weight: 900; font-size: 16px; color: #090e09; flex-shrink: 0; }
+  .top-title { font-family: var(--display); font-size: 17px; font-weight: 800; letter-spacing: .06em; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .top-bar-right { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+  .share-btn {
+    background: var(--bg2); border: 1px solid var(--border2);
+    color: var(--text2); padding: 7px 12px; border-radius: 7px;
+    font-family: var(--body); font-size: 12px; font-weight: 600;
+    cursor: pointer; display: flex; align-items: center; gap: 5px;
+    transition: all .15s;
+  }
+  .share-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .live-pill {
+    background: rgba(239,68,68,.12); border: 1px solid rgba(239,68,68,.3);
+    color: var(--red); padding: 5px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 800; letter-spacing: .1em;
+    display: flex; align-items: center; gap: 5px;
+  }
+  .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); animation: pulse 1.5s infinite; }
+
+  /* ── HERO ────────────────────────────────────── */
+  .hero {
+    padding: 24px 16px 20px;
+    background: linear-gradient(180deg, rgba(13,20,16,1) 0%, rgba(9,14,9,0) 100%);
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: ''; position: absolute; top: -60px; right: -60px;
+    width: 240px; height: 240px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(163,230,53,.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: .15em; color: var(--accent); margin-bottom: 4px; }
+  .hero-name { font-family: var(--display); font-size: 34px; font-weight: 900; color: #f1f5f9; line-height: 1; margin-bottom: 6px; }
+  .hero-meta { font-size: 12px; color: var(--text3); display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 18px; }
+  .hero-meta-sep { color: var(--border2); }
+
+  .progress-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 12px; }
+  .progress-chip {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 10px 12px; text-align: center;
+  }
+  .progress-chip-val { font-family: var(--display); font-size: 22px; font-weight: 800; color: var(--accent); line-height: 1; }
+  .progress-chip-val.live-color { color: var(--green); }
+  .progress-chip-val.muted { color: var(--text3); }
+  .progress-chip-lbl { font-size: 9.5px; color: var(--text4); margin-top: 2px; letter-spacing: .06em; font-weight: 700; }
+
+  .progress-bar-wrap { background: var(--bg2); border-radius: 4px; height: 6px; overflow: hidden; border: 1px solid var(--border); }
+  .progress-bar-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #84cc16); border-radius: 4px; transition: width .6s ease; }
+
+  /* ── FIND MY TEAM ────────────────────────────── */
+  .search-section { padding: 12px 16px; border-bottom: 1px solid var(--border); position: sticky; top: 53px; z-index: 40; background: var(--bg2); }
+  .search-wrap { position: relative; }
+  .search-input {
+    width: 100%; background: var(--bg3); border: 1px solid var(--border2);
+    border-radius: 10px; padding: 11px 14px 11px 38px;
+    color: var(--text); font-family: var(--body); font-size: 14px; outline: none;
+    transition: border-color .15s;
+  }
+  .search-input::placeholder { color: var(--text4); }
+  .search-input:focus { border-color: var(--accent); }
+  .search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text4); font-size: 15px; pointer-events: none; }
+  .search-clear { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text4); cursor: pointer; font-size: 16px; padding: 2px 4px; transition: color .15s; display: none; }
+  .search-clear:hover { color: var(--text); }
+
+  /* Highlight class — applied to team names matching the search */
+  .team-highlight { background: rgba(163,230,53,.15); color: var(--accent) !important; border-radius: 3px; padding: 0 2px; font-weight: 700 !important; }
+
+  /* ── MY TEAM BANNER (shown when search has a result) ── */
+  .my-team-banner {
+    margin: 0 16px 12px;
+    background: rgba(163,230,53,.06); border: 1px solid rgba(163,230,53,.2);
+    border-radius: 10px; padding: 12px 14px;
+    display: none;
+  }
+  .my-team-banner.visible { display: block; animation: fadeIn .25s ease; }
+  .my-team-banner-title { font-size: 10px; font-weight: 800; letter-spacing: .12em; color: var(--accent); margin-bottom: 8px; }
+  .my-team-next-match { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; }
+  .my-team-next-label { font-size: 10px; font-weight: 700; letter-spacing: .1em; color: var(--text4); margin-bottom: 4px; }
+  .my-team-next-title { font-size: 13.5px; font-weight: 700; color: var(--text); }
+  .my-team-next-meta { font-size: 11px; color: var(--text3); margin-top: 3px; }
+  .my-team-all-done { font-size: 12px; color: var(--text3); padding: 4px 0; }
+
+  /* ── TABS ────────────────────────────────────── */
+  .tabs-nav {
+    display: flex; gap: 0;
+    border-bottom: 1px solid var(--border);
+    background: var(--bg2);
+    overflow-x: auto; -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .tabs-nav::-webkit-scrollbar { display: none; }
+  .tab-btn {
+    background: none; border: none; border-bottom: 2px solid transparent;
+    padding: 13px 18px; color: var(--text3); font-family: var(--body);
+    font-size: 13px; font-weight: 700; cursor: pointer;
+    transition: color .15s, border-color .15s;
+    white-space: nowrap; flex-shrink: 0;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .tab-btn:hover { color: var(--text2); }
+  .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .tab-count { background: var(--bg3); border: 1px solid var(--border); color: var(--text4); font-size: 10px; font-weight: 700; padding: 1px 6px; border-radius: 8px; letter-spacing: .04em; }
+  .tab-btn.active .tab-count { background: rgba(163,230,53,.1); border-color: rgba(163,230,53,.25); color: var(--accent); }
+
+  /* ── SECTION COMMON ─────────────────────────── */
+  .tab-panel { padding: 16px 16px 40px; }
+  .section-title { font-size: 10px; font-weight: 800; letter-spacing: .16em; color: var(--text4); margin-bottom: 10px; display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+
+  /* ── LIVE NOW ────────────────────────────────── */
+  .live-section { padding: 14px 16px; border-bottom: 1px solid var(--border); }
+  .live-section-header { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .live-section-title { font-size: 11px; font-weight: 800; letter-spacing: .14em; color: var(--text4); }
+  .live-count-badge { background: rgba(34,197,94,.12); border: 1px solid rgba(34,197,94,.25); color: var(--green); font-size: 10px; font-weight: 800; padding: 2px 7px; border-radius: 10px; letter-spacing: .06em; }
+
+  .live-card {
+    background: var(--bg2); border: 1px solid var(--green);
+    box-shadow: 0 0 0 1px var(--green), 0 0 14px rgba(34,197,94,.1);
+    border-radius: 12px; padding: 12px 14px; margin-bottom: 8px;
+  }
+  .live-card:last-child { margin-bottom: 0; }
+  .live-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .live-card-phase { font-size: 10px; font-weight: 700; letter-spacing: .1em; color: var(--text4); display: flex; align-items: center; gap: 5px; }
+  .live-card-court { font-size: 10px; font-weight: 700; color: var(--text4); background: var(--bg3); padding: 2px 7px; border-radius: 4px; }
+  .live-card-timer { font-family: monospace; font-size: 11px; font-weight: 700; color: var(--green); }
+
+  .live-score-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; }
+  .live-score-row + .live-score-row { border-top: 1px solid var(--border); }
+  .live-score-team { font-size: 15px; font-weight: 700; color: var(--text); flex: 1; }
+  .live-score-team.leading { color: var(--accent); }
+  .live-score-team.searched { /* highlighted below by JS */ }
+  .live-sets { display: flex; gap: 6px; align-items: center; }
+  .live-set-chip {
+    font-family: monospace; font-size: 13px; font-weight: 800;
+    min-width: 22px; text-align: center; color: var(--text3);
+  }
+  .live-set-chip.won { color: var(--accent); }
+  .live-set-chip.current { color: var(--text); }
+  .live-set-chip.stb { color: var(--gold); font-size: 11px; }
+
+  /* ── UPCOMING NEXT ───────────────────────────── */
+  .upcoming-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 10px; padding: 10px 12px; margin-bottom: 7px;
+  }
+  .upcoming-card:last-child { margin-bottom: 0; }
+  .upcoming-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
+  .upcoming-phase { font-size: 10px; font-weight: 700; letter-spacing: .09em; color: var(--text4); }
+  .upcoming-time { font-size: 10px; font-weight: 700; color: var(--text3); font-family: monospace; }
+  .upcoming-teams { font-size: 13.5px; font-weight: 700; color: var(--text); }
+  .upcoming-vs { color: var(--text4); font-weight: 500; font-size: 12px; margin: 0 5px; }
+  .upcoming-court { font-size: 10px; color: var(--text4); margin-top: 3px; }
+
+  /* ── GROUPS TAB ─────────────────────────────── */
+  .group-block { margin-bottom: 20px; }
+  .group-block-header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 8px;
+  }
+  .group-label { font-family: var(--display); font-size: 14px; font-weight: 800; letter-spacing: .12em; color: var(--text2); }
+  .group-status-pill { font-size: 9px; font-weight: 700; letter-spacing: .08em; padding: 2px 7px; border-radius: 10px; }
+  .group-status-pill.done { background: rgba(163,230,53,.1); color: var(--accent); }
+  .group-status-pill.live { background: rgba(34,197,94,.1); color: var(--green); }
+  .group-status-pill.pending { background: var(--bg3); color: var(--text4); }
+
+  /* Standings — compact, mobile-friendly */
+  .standings { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin-bottom: 10px; }
+  .standings-head { display: grid; grid-template-columns: 24px 1fr 28px 28px 28px 28px; gap: 4px; padding: 6px 10px; background: var(--bg3); border-bottom: 1px solid var(--border); }
+  .standings-head-col { font-size: 9px; font-weight: 800; letter-spacing: .1em; color: var(--text4); text-align: center; }
+  .standings-head-col.left { text-align: left; }
+  .standings-row { display: grid; grid-template-columns: 24px 1fr 28px 28px 28px 28px; gap: 4px; padding: 9px 10px; border-bottom: 1px solid var(--border); align-items: center; transition: background .15s; }
+  .standings-row:last-child { border-bottom: none; }
+  .standings-row.qualifying { background: rgba(163,230,53,.04); }
+  .standings-row.consolation { background: rgba(148,163,184,.04); }
+  .standings-row.searched-row { background: rgba(163,230,53,.1); }
+  .standings-pos { font-family: var(--display); font-size: 16px; font-weight: 800; color: var(--text4); text-align: center; }
+  .standings-row.qualifying .standings-pos { color: var(--accent); }
+  .standings-row.consolation .standings-pos { color: var(--silver); }
+  .standings-name { font-size: 12.5px; font-weight: 700; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .standings-num { font-family: monospace; font-size: 12px; font-weight: 700; color: var(--text2); text-align: center; }
+  .standings-num.best { color: var(--accent); }
+  .qual-badge { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-left: 5px; vertical-align: middle; }
+
+  /* Match list under each group */
+  .group-matches-toggle { background: none; border: none; font-family: var(--body); font-size: 11px; font-weight: 700; color: var(--text4); cursor: pointer; padding: 4px 0; letter-spacing: .06em; display: flex; align-items: center; gap: 4px; transition: color .15s; }
+  .group-matches-toggle:hover { color: var(--text2); }
+  .group-matches-list { display: none; margin-top: 8px; }
+  .group-matches-list.open { display: flex; flex-direction: column; gap: 5px; }
+
+  .match-result-row {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 10px;
+    display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 6px;
+  }
+  .match-result-row.completed { border-color: rgba(163,230,53,.15); }
+  .match-result-row.live { border-color: var(--green); box-shadow: 0 0 0 1px var(--green); }
+  .mr-team { font-size: 12px; font-weight: 700; color: var(--text2); }
+  .mr-team.winner { color: var(--accent); }
+  .mr-team.right { text-align: right; }
+  .mr-score { text-align: center; }
+  .mr-score-sets { font-family: monospace; font-size: 12px; font-weight: 700; color: var(--text2); white-space: nowrap; }
+  .mr-score-vs { font-size: 10px; color: var(--text4); font-weight: 600; }
+  .mr-score-live { font-size: 9px; font-weight: 800; color: var(--green); letter-spacing: .08em; }
+  .mr-stb { color: var(--gold); font-size: 10px; }
+
+  /* ── BRACKET TAB ────────────────────────────── */
+  .bracket-section { margin-bottom: 20px; }
+  .bracket-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 8px; }
+  .bracket-rounds { display: flex; gap: 12px; min-width: max-content; padding: 4px 2px; }
+  .bracket-round { display: flex; flex-direction: column; gap: 0; min-width: 170px; }
+  .bracket-round-label {
+    font-size: 10px; font-weight: 800; letter-spacing: .12em;
+    color: var(--text4); margin-bottom: 8px; text-align: center;
+    padding: 4px 8px; background: var(--bg2); border-radius: 4px;
+  }
+  .bracket-round-label.stb-round { color: var(--gold); }
+  .bracket-round-label.full-round { color: var(--blue); }
+
+  .bracket-spacer { flex: 1; }
+  .bracket-match-pair { display: flex; flex-direction: column; justify-content: center; flex: 1; }
+  .bracket-match {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 8px; overflow: hidden; margin: 3px 0;
+    transition: border-color .15s;
+  }
+  .bracket-match.completed { border-color: rgba(163,230,53,.2); }
+  .bracket-match.live-match { border-color: var(--green); box-shadow: 0 0 0 1px var(--green); }
+  .bracket-match.upcoming-match { opacity: .65; }
+  .bracket-match-team {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 7px 9px; gap: 6px;
+    border-bottom: 1px solid var(--border);
+    font-size: 11.5px; font-weight: 700; color: var(--text2);
+  }
+  .bracket-match-team:last-child { border-bottom: none; }
+  .bracket-match-team.winner { background: rgba(163,230,53,.07); color: var(--accent); }
+  .bracket-match-team.winner-silver { background: rgba(148,163,184,.07); color: var(--silver); }
+  .bracket-match-team.loser { opacity: .5; }
+  .bracket-match-team.tbd { color: var(--text4); font-style: italic; font-weight: 500; font-size: 11px; }
+  .bracket-match-team.searched-bracket { background: rgba(163,230,53,.12); color: var(--accent); }
+  .bracket-team-name { flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .bracket-team-score { font-family: monospace; font-size: 11px; font-weight: 700; display: flex; gap: 3px; flex-shrink: 0; }
+  .bs { color: var(--text3); }
+  .bs.w { color: var(--accent); }
+  .bs.ws { color: var(--silver); }
+  .bs.stb-s { color: var(--gold); font-size: 10px; }
+
+  .bracket-connector-row { display: flex; align-items: center; justify-content: center; height: 12px; }
+
+  /* trophy */
+  .trophy-section { text-align: center; padding: 20px 16px; }
+  .trophy-card-pub {
+    display: inline-block; padding: 18px 24px;
+    border-radius: 12px; margin: 0 auto;
+  }
+  .trophy-card-pub.gold { background: linear-gradient(135deg, #2a1f00, #1a1200); border: 1px solid var(--gold); }
+  .trophy-card-pub.silver { background: linear-gradient(135deg, #1a1f24, #0f1419); border: 1px solid var(--silver); }
+  .trophy-icon-pub { font-size: 36px; margin-bottom: 6px; }
+  .trophy-label-pub { font-size: 10px; font-weight: 700; letter-spacing: .2em; margin-bottom: 4px; }
+  .trophy-card-pub.gold .trophy-label-pub { color: var(--gold); }
+  .trophy-card-pub.silver .trophy-label-pub { color: var(--silver); }
+  .trophy-name-pub { font-family: var(--display); font-size: 20px; font-weight: 900; }
+  .trophy-card-pub.gold .trophy-name-pub { color: #fbbf24; }
+  .trophy-card-pub.silver .trophy-name-pub { color: #cbd5e1; }
+
+  /* ── SCHEDULE TAB ───────────────────────────── */
+  .schedule-day-block { margin-bottom: 22px; }
+  .schedule-day-header {
+    display: flex; align-items: center; gap: 10px;
+    margin-bottom: 10px; padding-bottom: 8px;
+    border-bottom: 2px solid var(--border2);
+  }
+  .schedule-day-label {
+    font-family: var(--display); font-size: 17px; font-weight: 800;
+    letter-spacing: .1em; color: var(--text);
+  }
+  .schedule-day-label.today { color: var(--accent); }
+  .schedule-day-badge {
+    font-size: 9px; font-weight: 800; letter-spacing: .1em;
+    padding: 2px 7px; border-radius: 3px;
+  }
+  .schedule-day-badge.live-day { background: rgba(34,197,94,.12); color: var(--green); }
+  .schedule-day-badge.done-day { background: rgba(163,230,53,.1); color: var(--accent); }
+  .schedule-day-badge.upcoming-day { background: var(--bg3); color: var(--text4); }
+  .schedule-time-group { margin-bottom: 10px; }
+  .schedule-time-header { font-size: 10px; font-weight: 800; letter-spacing: .12em; color: var(--text4); padding: 4px 0 7px; margin-bottom: 5px; display: flex; align-items: center; gap: 5px; }
+  .sched-item {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: 8px; padding: 9px 11px; margin-bottom: 5px;
+    display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: center;
+  }
+  .sched-item.completed { border-color: rgba(163,230,53,.15); }
+  .sched-item.live-sched { border-color: var(--green); }
+  .sched-item.searched-sched { background: rgba(163,230,53,.06); border-color: rgba(163,230,53,.3); }
+  .sched-item-left { }
+  .sched-phase { font-size: 9.5px; font-weight: 700; letter-spacing: .09em; color: var(--text4); margin-bottom: 3px; }
+  .sched-teams { font-size: 13px; font-weight: 700; color: var(--text); }
+  .sched-vs { font-size: 11px; color: var(--text4); margin: 0 4px; }
+  .sched-right { text-align: right; }
+  .sched-status { font-size: 10px; font-weight: 700; letter-spacing: .07em; color: var(--text4); }
+  .sched-status.done { color: var(--accent); }
+  .sched-status.live { color: var(--green); }
+  .sched-court { font-size: 10px; color: var(--text4); margin-top: 2px; }
+  .sched-score { font-family: monospace; font-size: 11px; font-weight: 700; color: var(--text2); }
+
+  /* ── EMPTY STATE ─────────────────────────────── */
+  .empty-state { padding: 32px 16px; text-align: center; color: var(--text4); font-size: 13px; }
+  .empty-icon { font-size: 30px; margin-bottom: 8px; }
+
+  /* ── FOOTER ─────────────────────────────────── */
+  .pub-footer { padding: 24px 16px; text-align: center; border-top: 1px solid var(--border); }
+  .pub-footer-logo { font-family: var(--display); font-size: 15px; font-weight: 800; letter-spacing: .15em; color: var(--text4); margin-bottom: 4px; }
+  .pub-footer-sub { font-size: 11px; color: var(--text4); }
+  .pub-footer-sub a { color: var(--accent); text-decoration: none; }
+
+  /* ── TOAST ───────────────────────────────────── */
+  .toast { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); background: var(--bg2); border: 1px solid var(--accent); border-radius: 8px; padding: 10px 18px; color: var(--accent); font-size: 12px; font-weight: 600; z-index: 200; box-shadow: 0 8px 24px rgba(0,0,0,.5); white-space: nowrap; pointer-events: none; }
+
+  /* ── DESKTOP OVERRIDES ──────────────────────── */
+  @media (min-width: 680px) {
+    .hero { padding: 28px 32px 24px; }
+    .hero-name { font-size: 44px; }
+    .progress-row { max-width: 360px; }
+    .search-section { padding: 12px 32px; }
+    .live-section { padding: 16px 32px; }
+    .my-team-banner { margin: 0 32px 12px; }
+    .tab-panel { padding: 20px 32px 48px; }
+    .group-block { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .group-block-header { grid-column: 1 / -1; }
+    .group-matches-section { grid-column: 1 / -1; }
+    .bracket-rounds { gap: 20px; }
+    .bracket-round { min-width: 190px; }
+    .top-title { font-size: 19px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="top-bar">
+  <div class="top-bar-left">
+    <div class="top-logo">P</div>
+    <div class="top-title">Copa Tegucigalpa Open</div>
+  </div>
+  <div class="top-bar-right">
+    <div class="live-pill" id="top-live-pill"><span class="live-dot"></span> LIVE</div>
+    <button class="share-btn" onclick="shareUrl()">🔗 Share</button>
+  </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">TOURNAMENT · MEN'S 2ND CATEGORY · FINALS DAY</div>
+  <div class="hero-name">Copa Tegucigalpa Open</div>
+  <div class="hero-meta">
+    <span>📅 Sep 28–30, 2026</span>
+    <span class="hero-meta-sep">·</span>
+    <span>📍 Club de Tenis Tegucigalpa</span>
+    <span class="hero-meta-sep">·</span>
+    <span id="hero-day">Day 3 of 3 · Finals</span>
+  </div>
+  <div class="progress-row">
+    <div class="progress-chip">
+      <div class="progress-chip-val live-color" id="stat-live">2</div>
+      <div class="progress-chip-lbl">LIVE NOW</div>
+    </div>
+    <div class="progress-chip">
+      <div class="progress-chip-val" id="stat-done">—</div>
+      <div class="progress-chip-lbl">COMPLETED</div>
+    </div>
+    <div class="progress-chip">
+      <div class="progress-chip-val muted" id="stat-left">—</div>
+      <div class="progress-chip-lbl">REMAINING</div>
+    </div>
+  </div>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar-fill" id="progress-fill" style="width: 90%"></div>
+  </div>
+</div>
+
+<!-- FIND MY TEAM -->
+<div class="search-section">
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" class="search-input" id="team-search" placeholder="Find my team — type a name..." autocomplete="off" oninput="handleSearch(this.value)">
+    <button class="search-clear" id="search-clear" onclick="clearSearch()">✕</button>
+  </div>
+</div>
+
+<!-- MY TEAM BANNER -->
+<div class="my-team-banner" id="my-team-banner">
+  <div class="my-team-banner-title">YOUR TEAM</div>
+  <div id="my-team-content"></div>
+</div>
+
+<!-- LIVE NOW (always visible, above tabs) -->
+<div class="live-section" id="live-section"></div>
+
+<!-- TABS -->
+<div class="tabs-nav" id="tabs-nav">
+  <button class="tab-btn active" data-tab="groups" onclick="switchTab('groups')">
+    Groups <span class="tab-count" id="tab-groups-count"></span>
+  </button>
+  <button class="tab-btn" data-tab="bracket" onclick="switchTab('bracket')">
+    Bracket
+  </button>
+  <button class="tab-btn" data-tab="consolation" onclick="switchTab('consolation')">
+    Consolation <span class="tab-count" style="background:rgba(148,163,184,.1);border-color:rgba(148,163,184,.2);color:var(--silver);" id="tab-cons-count"></span>
+  </button>
+  <button class="tab-btn" data-tab="schedule" onclick="switchTab('schedule')">
+    Schedule <span class="tab-count" id="tab-sched-count"></span>
+  </button>
+</div>
+
+<!-- TAB PANELS -->
+<div id="panel-groups" class="tab-panel"></div>
+<div id="panel-bracket" class="tab-panel" style="display:none;"></div>
+<div id="panel-consolation" class="tab-panel" style="display:none;"></div>
+<div id="panel-schedule" class="tab-panel" style="display:none;"></div>
+
+<div class="pub-footer">
+  <div class="pub-footer-logo">PADELFLOW</div>
+  <div class="pub-footer-sub">Tournament management by <a href="#">PadelFlow</a></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+// DATA — mirrors tournament module exactly
+// ═══════════════════════════════════════════════════════════════════════════
+
+const ALL_TEAMS = [
+  { id:1,  name:'García / Reyes',      seed:1  }, { id:2,  name:'Torres / Vega',       seed:2  },
+  { id:3,  name:'López / Martín',      seed:3  }, { id:4,  name:'Herrera / Núñez',     seed:4  },
+  { id:5,  name:'Soto / Vargas',       seed:5  }, { id:6,  name:'Flores / Ramos',      seed:6  },
+  { id:7,  name:'Cruz / Méndez',       seed:7  }, { id:8,  name:'Morales / Díaz',      seed:8  },
+  { id:9,  name:'Aguilar / Bonilla',   seed:9  }, { id:10, name:'Zavala / Molina',     seed:10 },
+  { id:11, name:'Sandoval / Espinoza', seed:11 }, { id:12, name:'Ortega / Medina',     seed:12 },
+  { id:13, name:'Ramírez / Silva',     seed:13 }, { id:14, name:'Jiménez / Guzmán',    seed:14 },
+  { id:15, name:'Palacios / Rivera',   seed:15 }, { id:16, name:'Paredes / Castillo',  seed:16 },
+];
+
+// Schedule data — court assignments + times for the public schedule tab
+const SCHEDULE = [
+  // ── Day 1 · Saturday Sep 28 ──
+  { matchId:'gAm0', courtName:'Court 2', time:'09:00', date:'SAT SEP 28' },
+  { matchId:'gBm0', courtName:'Court 3', time:'09:00', date:'SAT SEP 28' },
+  { matchId:'gCm0', courtName:'Court 4', time:'09:00', date:'SAT SEP 28' },
+  { matchId:'gDm0', courtName:'Court 1', time:'09:00', date:'SAT SEP 28' },
+  { matchId:'gAm1', courtName:'Court 1', time:'10:30', date:'SAT SEP 28' },
+  { matchId:'gBm1', courtName:'Court 2', time:'10:30', date:'SAT SEP 28' },
+  { matchId:'gCm1', courtName:'Court 3', time:'10:30', date:'SAT SEP 28' },
+  { matchId:'gDm1', courtName:'Court 4', time:'10:30', date:'SAT SEP 28' },
+  { matchId:'gAm2', courtName:'Court 1', time:'12:00', date:'SAT SEP 28' },
+  { matchId:'gBm2', courtName:'Court 2', time:'12:00', date:'SAT SEP 28' },
+  { matchId:'gCm2', courtName:'Court 3', time:'12:00', date:'SAT SEP 28' },
+  { matchId:'gDm2', courtName:'Court 4', time:'12:00', date:'SAT SEP 28' },
+  { matchId:'gAm3', courtName:'Court 2', time:'13:30', date:'SAT SEP 28' },
+  { matchId:'gBm3', courtName:'Court 3', time:'13:30', date:'SAT SEP 28' },
+  { matchId:'gCm3', courtName:'Court 1', time:'13:30', date:'SAT SEP 28' },
+  { matchId:'gDm3', courtName:'Court 4', time:'13:30', date:'SAT SEP 28' },
+  // ── Day 2 · Sunday Sep 29 ──
+  { matchId:'gAm4', courtName:'Court 1', time:'09:00', date:'SUN SEP 29' },
+  { matchId:'gBm4', courtName:'Court 2', time:'09:00', date:'SUN SEP 29' },
+  { matchId:'gCm4', courtName:'Court 3', time:'09:00', date:'SUN SEP 29' },
+  { matchId:'gDm4', courtName:'Court 4', time:'09:00', date:'SUN SEP 29' },
+  { matchId:'gAm5', courtName:'Court 1', time:'10:30', date:'SUN SEP 29' },
+  { matchId:'gBm5', courtName:'Court 2', time:'10:30', date:'SUN SEP 29' },
+  { matchId:'gCm5', courtName:'Court 3', time:'10:30', date:'SUN SEP 29' },
+  { matchId:'gDm5', courtName:'Court 4', time:'10:30', date:'SUN SEP 29' },
+  { matchId:'kr0m0', courtName:'Court 1', time:'15:00', date:'SUN SEP 29' },
+  { matchId:'kr0m1', courtName:'Court 2', time:'15:00', date:'SUN SEP 29' },
+  { matchId:'kr0m2', courtName:'Court 3', time:'15:00', date:'SUN SEP 29' },
+  { matchId:'kr0m3', courtName:'Court 4', time:'15:00', date:'SUN SEP 29' },
+  { matchId:'cr0m0', courtName:'Court 1', time:'17:00', date:'SUN SEP 29' },
+  { matchId:'cr0m1', courtName:'Court 2', time:'17:00', date:'SUN SEP 29' },
+  { matchId:'cr0m2', courtName:'Court 3', time:'17:00', date:'SUN SEP 29' },
+  { matchId:'cr0m3', courtName:'Court 4', time:'17:00', date:'SUN SEP 29' },
+  // ── Day 3 · Monday Sep 30 · Finals ──
+  { matchId:'kr1m0', courtName:'Court 1', time:'10:00', date:'MON SEP 30' },
+  { matchId:'kr1m1', courtName:'Court 2', time:'10:00', date:'MON SEP 30' },
+  { matchId:'cr1m0', courtName:'Court 3', time:'10:00', date:'MON SEP 30' },
+  { matchId:'cr1m1', courtName:'Court 4', time:'10:00', date:'MON SEP 30' },
+  { matchId:'kr2m0', courtName:'Court 1', time:'13:00', date:'MON SEP 30' },
+  { matchId:'cr2m0', courtName:'Court 3', time:'13:00', date:'MON SEP 30' },
+];
+
+function scheduleFor(matchId) { return SCHEDULE.find(s => s.matchId === matchId) || {}; }
+function teamById(id) { return ALL_TEAMS.find(t => t.id === id); }
+
+let groupConfig = { numGroups: 4, advanceCount: 2, useSTB: true };
+let koTiebreak = { r0: true, r1: false, r2: false };
+let consTiebreak = { r0: true, r1: true, r2: true };
+let consolationEnabled = true;
+
+let groups = [], groupMatches = [], knockoutMatches = [], consolationMatches = [];
+let mainQualifiedSlots = [], consQualifiedSlots = [];
+
+// ── Data generation (identical to tournament module) ────────────────────
+
+function snakeSeed(numGroups, teams) {
+  const g = Array.from({ length: numGroups }, (_, i) => ({ letter: String.fromCharCode(65+i), teamIds: [] }));
+  const sorted = [...teams].sort((a,b) => a.seed - b.seed);
+  let reverse = false;
+  for (let i = 0; i < sorted.length; i += numGroups) {
+    const chunk = sorted.slice(i, i+numGroups);
+    if (reverse) chunk.reverse();
+    chunk.forEach((t, idx) => g[idx].teamIds.push(t.id));
+    reverse = !reverse;
+  }
+  return g;
+}
+
+function generateRRMatches(group) {
+  const matches = []; const teams = group.teamIds; let idx = 0;
+  for (let i = 0; i < teams.length; i++)
+    for (let j = i+1; j < teams.length; j++)
+      matches.push({ id:`g${group.letter}m${idx++}`, group:group.letter, t1:teams[i], t2:teams[j], sets:null, superTB:null, winner:null, status:'ready', stb:groupConfig.useSTB });
+  return matches;
+}
+
+function setWinner(s) {
+  if (s.s1===null||s.s2===null) return null;
+  const a=s.s1,b=s.s2;
+  if (a===7&&b===6) return 1; if (b===7&&a===6) return 2;
+  if (a>=6&&a-b>=2) return 1; if (b>=6&&b-a>=2) return 2;
+  return null;
+}
+
+function calcStandings(group) {
+  const stats = {};
+  group.teamIds.forEach(id => { stats[id]={teamId:id,played:0,won:0,lost:0,setsWon:0,setsLost:0,gamesWon:0,gamesLost:0}; });
+  const gm = groupMatches.filter(m => m.group===group.letter && m.status==='completed');
+  gm.forEach(m => {
+    const s={[m.t1]:stats[m.t1],[m.t2]:stats[m.t2]};
+    s[m.t1].played++;s[m.t2].played++;
+    if(m.winner===1){s[m.t1].won++;s[m.t2].lost++;}else{s[m.t2].won++;s[m.t1].lost++;}
+    (m.sets||[]).forEach(set=>{
+      if(set.s1===null) return;
+      s[m.t1].gamesWon+=set.s1;s[m.t1].gamesLost+=set.s2;
+      s[m.t2].gamesWon+=set.s2;s[m.t2].gamesLost+=set.s1;
+      const w=setWinner(set);
+      if(w===1){s[m.t1].setsWon++;s[m.t2].setsLost++;}
+      else if(w===2){s[m.t2].setsWon++;s[m.t1].setsLost++;}
+    });
+    if(m.superTB&&m.superTB.s1!==null){
+      if(m.superTB.s1>m.superTB.s2){s[m.t1].setsWon++;s[m.t2].setsLost++;}
+      else{s[m.t2].setsWon++;s[m.t1].setsLost++;}
+    }
+  });
+  const arr=Object.values(stats);
+  arr.sort((a,b)=>{
+    if(b.won!==a.won) return b.won-a.won;
+    const tiedCount=arr.filter(x=>x.won===a.won).length;
+    if(tiedCount===2){
+      const h2h=groupMatches.find(m=>m.group===group.letter&&m.status==='completed'&&((m.t1===a.teamId&&m.t2===b.teamId)||(m.t1===b.teamId&&m.t2===a.teamId)));
+      if(h2h){const wId=h2h.winner===1?h2h.t1:h2h.t2;if(wId===a.teamId)return-1;if(wId===b.teamId)return 1;}
+    }
+    const sdB=b.setsWon-b.setsLost,sdA=a.setsWon-a.setsLost;
+    if(sdB!==sdA)return sdB-sdA;
+    const gdB=b.gamesWon-b.gamesLost,gdA=a.gamesWon-a.gamesLost;
+    if(gdB!==gdA)return gdB-gdA;
+    return b.gamesWon-a.gamesWon;
+  });
+  return arr;
+}
+
+function buildBracketSkeleton(pairings, prefix) {
+  const n = pairings.length;
+  const totalRounds = Math.ceil(Math.log2(n)) + 1;
+  const matches = [];
+
+  // Pass 1 — create every match stub
+  for (let r = 0; r < totalRounds; r++) {
+    const count = Math.ceil(n / Math.pow(2, r));
+    for (let p = 0; p < count; p++) {
+      const m = {
+        id:`${prefix}r${r}m${p}`, round:r, pos:p,
+        t1:null, t2:null, qual1:null, qual2:null,
+        sets:null, superTB:null, winner:null,
+        status:'upcoming', parent:null, slot:null,
+        stb: false,
+      };
+      if (r === 0) {
+        const pair = pairings[p] || [];
+        m.t1 = pair[0]?.teamId || null;
+        m.t2 = pair[1]?.teamId || null;
+        m.qual1 = pair[0] ? `${pair[0].group}${pair[0].position}` : null;
+        m.qual2 = pair[1] ? `${pair[1].group}${pair[1].position}` : null;
+        if (m.t1 && m.t2) m.status = 'ready';
+      }
+      matches.push(m);
+    }
+  }
+
+  // Pass 2 — link every non-final match to its parent
+  matches.forEach(m => {
+    if (m.round === totalRounds - 1) return; // final has no parent
+    const parentId = `${prefix}r${m.round + 1}m${Math.floor(m.pos / 2)}`;
+    const parent = matches.find(x => x.id === parentId);
+    if (parent) {
+      m.parent = parentId;
+      m.slot = m.pos % 2 === 0 ? 1 : 2;
+    }
+  });
+
+  return matches;
+}
+
+function buildQualifiedSlots() {
+  mainQualifiedSlots=[];consQualifiedSlots=[];
+  groups.forEach(g=>{
+    for(let i=0;i<groupConfig.advanceCount;i++) mainQualifiedSlots.push({group:g.letter,position:i+1,teamId:null});
+    for(let i=groupConfig.advanceCount;i<g.teamIds.length;i++) consQualifiedSlots.push({group:g.letter,position:i+1,teamId:null});
+  });
+}
+
+function updateQualifiedSlots() {
+  groups.forEach(g=>{
+    const standings=calcStandings(g);
+    const groupDone=groupMatches.filter(m=>m.group===g.letter).every(m=>m.status==='completed');
+    for(let i=0;i<groupConfig.advanceCount;i++){
+      const slot=mainQualifiedSlots.find(s=>s.group===g.letter&&s.position===i+1);
+      if(slot)slot.teamId=groupDone&&standings[i]?standings[i].teamId:null;
+    }
+    for(let i=groupConfig.advanceCount;i<g.teamIds.length;i++){
+      const slot=consQualifiedSlots.find(s=>s.group===g.letter&&s.position===i+1);
+      if(slot)slot.teamId=groupDone&&standings[i]?standings[i].teamId:null;
+    }
+  });
+}
+
+function find(slots,group,pos){return slots.find(s=>s.group===group&&s.position===pos);}
+function buildCrossSeededPairings(slots,numGroups){
+  const n=slots.length;
+  if(n===8&&numGroups===4){return [[find(slots,'A',1),find(slots,'B',2)],[find(slots,'C',1),find(slots,'D',2)],[find(slots,'B',1),find(slots,'A',2)],[find(slots,'D',1),find(slots,'C',2)]];}
+  const sorted=[...slots].sort((a,b)=>a.position!==b.position?a.position-b.position:a.group.localeCompare(b.group));
+  const pairs=[];for(let i=0;i<sorted.length;i+=2)pairs.push([sorted[i],sorted[i+1]]);
+  return pairs;
+}
+function buildConsolationPairings(slots,numGroups){
+  const n=slots.length;
+  if(n===8&&numGroups===4){return [[find(slots,'A',3),find(slots,'B',4)],[find(slots,'C',3),find(slots,'D',4)],[find(slots,'B',3),find(slots,'A',4)],[find(slots,'D',3),find(slots,'C',4)]];}
+  const sorted=[...slots].sort((a,b)=>a.position!==b.position?a.position-b.position:a.group.localeCompare(b.group));
+  const pairs=[];for(let i=0;i<sorted.length;i+=2)pairs.push([sorted[i],sorted[i+1]]);
+  return pairs;
+}
+
+function propagate(match,arr){
+  if(!match.winner)return;
+  const winId=match.winner===1?match.t1:match.t2;
+  const parent=arr.find(x=>x.id===match.parent);
+  if(!parent)return;
+  if(match.slot===1)parent.t1=winId;else parent.t2=winId;
+  if(parent.t1&&parent.t2&&parent.status==='upcoming')parent.status='ready';
+}
+
+function regenerateAll() {
+  groups=snakeSeed(groupConfig.numGroups,ALL_TEAMS);
+  groupMatches=groups.flatMap(g=>generateRRMatches(g));
+  seedDemo();
+  buildQualifiedSlots();updateQualifiedSlots();
+  const mainPairs=buildCrossSeededPairings(mainQualifiedSlots,groupConfig.numGroups);
+  knockoutMatches=buildBracketSkeleton(mainPairs,'k');
+  const rounds=Math.max(...knockoutMatches.map(m=>m.round))+1;
+  koTiebreak={};for(let r=0;r<rounds;r++)koTiebreak[`r${r}`]=r<rounds-2;
+  knockoutMatches.forEach(m=>{m.stb=koTiebreak[`r${m.round}`]!==false;});
+  if(consolationEnabled){
+    const consPairs=buildConsolationPairings(consQualifiedSlots,groupConfig.numGroups);
+    consolationMatches=buildBracketSkeleton(consPairs,'c');
+    consolationMatches.forEach(m=>{m.stb=consTiebreak[`r${m.round}`]!==false;});
+  }
+  // Seed some KO results for demo interest
+  seedKODemo();
+}
+
+function seedDemo() {
+  const demo = {
+    'gAm0':{sets:[{s1:6,s2:3},{s1:6,s2:4}],winner:1,status:'completed'},
+    'gAm1':{sets:[{s1:6,s2:2},{s1:7,s2:5}],winner:1,status:'completed'},
+    'gAm2':{sets:[{s1:4,s2:6},{s1:6,s2:4}],superTB:{s1:10,s2:7},winner:1,status:'completed'},
+    'gAm3':{sets:[{s1:5,s2:7},{s1:6,s2:3}],superTB:{s1:6,s2:10},winner:2,status:'completed'},
+    'gAm4':{sets:[{s1:6,s2:4},{s1:3,s2:6}],superTB:{s1:10,s2:8},winner:1,status:'completed'},
+    'gAm5':{sets:[{s1:6,s2:2},{s1:6,s2:3}],winner:1,status:'completed'},
+    'gBm0':{sets:[{s1:7,s2:5},{s1:6,s2:4}],winner:1,status:'completed'},
+    'gBm1':{sets:[{s1:6,s2:2},{s1:6,s2:1}],winner:1,status:'completed'},
+    'gBm2':{sets:[{s1:6,s2:4},{s1:4,s2:6}],superTB:{s1:10,s2:5},winner:1,status:'completed'},
+    'gBm3':{sets:[{s1:7,s2:6},{s1:6,s2:3}],winner:1,status:'completed'},
+    'gBm4':{sets:[{s1:6,s2:3},{s1:4,s2:6}],superTB:{s1:10,s2:6},winner:1,status:'completed'},
+    'gBm5':{sets:[{s1:6,s2:4},{s1:6,s2:2}],winner:1,status:'completed'},
+    'gCm0':{sets:[{s1:6,s2:3},{s1:6,s2:2}],winner:1,status:'completed'},
+    'gCm1':{sets:[{s1:6,s2:4},{s1:7,s2:5}],winner:1,status:'completed'},
+    'gCm2':{sets:[{s1:5,s2:7},{s1:6,s2:4}],superTB:{s1:10,s2:8},winner:1,status:'completed'},
+    'gCm3':{sets:[{s1:6,s2:2},{s1:6,s2:4}],winner:1,status:'completed'},
+    'gCm4':{sets:[{s1:4,s2:6},{s1:6,s2:4}],superTB:{s1:6,s2:10},winner:2,status:'completed'},
+    'gCm5':{sets:[{s1:6,s2:3},{s1:7,s2:5}],winner:1,status:'completed'},
+    'gDm0':{sets:[{s1:6,s2:2},{s1:6,s2:4}],winner:1,status:'completed'},
+    'gDm1':{sets:[{s1:7,s2:5},{s1:6,s2:3}],winner:1,status:'completed'},
+    'gDm2':{sets:[{s1:6,s2:4},{s1:6,s2:2}],winner:1,status:'completed'},
+    'gDm3':{sets:[{s1:6,s2:3},{s1:6,s2:4}],winner:1,status:'completed'},
+    'gDm4':{sets:[{s1:4,s2:6},{s1:6,s2:4}],superTB:{s1:10,s2:7},winner:1,status:'completed'},
+    // gDm5 now complete (was live in the original demo)
+    'gDm5':{sets:[{s1:3,s2:6},{s1:4,s2:6}],winner:2,status:'completed'},
+  };
+  Object.entries(demo).forEach(([id,r])=>{
+    const m=groupMatches.find(x=>x.id===id);if(!m)return;
+    m.sets=r.sets;m.superTB=r.superTB||null;m.winner=r.winner;m.status=r.status;
+  });
+}
+
+function seedKODemo() {
+  // Helper: apply a result to a match and propagate winner to next round
+  function applyKO(arr, id, sets, superTB, winner) {
+    const m = arr.find(x => x.id === id);
+    if (!m) { console.warn('Match not found:', id); return; }
+    if (!m.t1 || !m.t2) { console.warn('Teams not set for', id, '— t1:', m.t1, 't2:', m.t2); return; }
+    m.sets = sets;
+    m.superTB = superTB || null;
+    m.winner = winner;
+    m.status = 'completed';
+    // Propagate winner to parent
+    if (m.parent) {
+      const parent = arr.find(x => x.id === m.parent);
+      if (parent) {
+        const winnerId = winner === 1 ? m.t1 : m.t2;
+        if (m.slot === 1) parent.t1 = winnerId;
+        else parent.t2 = winnerId;
+        if (parent.t1 && parent.t2) parent.status = 'ready';
+      }
+    }
+  }
+
+  // ── MAIN KNOCKOUT (QF → SF → Final live) ────────────────────────────────
+  // Round 0 — Quarterfinals (teams set from group stage seeding)
+  applyKO(knockoutMatches, 'kr0m0', [{s1:6,s2:4},{s1:6,s2:3}], null, 1);
+  applyKO(knockoutMatches, 'kr0m1', [{s1:6,s2:3},{s1:4,s2:6}], {s1:10,s2:7}, 1);
+  applyKO(knockoutMatches, 'kr0m2', [{s1:7,s2:5},{s1:6,s2:4}], null, 1);
+  applyKO(knockoutMatches, 'kr0m3', [{s1:6,s2:2},{s1:6,s2:4}], null, 1);
+  // Round 1 — Semifinals (teams populated by QF propagation)
+  applyKO(knockoutMatches, 'kr1m0', [{s1:6,s2:4},{s1:3,s2:6}], {s1:10,s2:8}, 1);
+  applyKO(knockoutMatches, 'kr1m1', [{s1:6,s2:3},{s1:6,s2:4}], null, 1);
+  // Round 2 — FINAL: live, first set done 6-4, second set in progress 3-2
+  const fin = knockoutMatches.find(x => x.id === 'kr2m0');
+  if (fin && fin.t1 && fin.t2) {
+    fin.sets = [{s1:6,s2:4},{s1:3,s2:2}];
+    fin.status = 'live';
+  }
+
+  // ── CONSOLATION BRACKET (QF → SF → Cons Final live) ─────────────────────
+  applyKO(consolationMatches, 'cr0m0', [{s1:6,s2:3},{s1:6,s2:2}], null, 1);
+  applyKO(consolationMatches, 'cr0m1', [{s1:4,s2:6},{s1:6,s2:4}], {s1:10,s2:6}, 2);
+  applyKO(consolationMatches, 'cr0m2', [{s1:6,s2:4},{s1:6,s2:3}], null, 1);
+  applyKO(consolationMatches, 'cr0m3', [{s1:7,s2:5},{s1:5,s2:7}], {s1:10,s2:8}, 1);
+  applyKO(consolationMatches, 'cr1m0', [{s1:6,s2:3},{s1:6,s2:4}], null, 1);
+  applyKO(consolationMatches, 'cr1m1', [{s1:4,s2:6},{s1:6,s2:3}], {s1:10,s2:5}, 2);
+  // Consolation Final: live, first set done 5-7, second set in progress 4-2
+  const cfin = consolationMatches.find(x => x.id === 'cr2m0');
+  if (cfin && cfin.t1 && cfin.t2) {
+    cfin.sets = [{s1:5,s2:7},{s1:4,s2:2}];
+    cfin.status = 'live';
+  }
+}
+
+// ── State ───────────────────────────────────────────────────────────────
+let currentTab = 'groups';
+let searchTerm = '';
+let liveTimers = {};
+
+// Seed live timers — both finals in progress
+liveTimers['kr2m0'] = 52*60+38;   // Main final: 52 min in, first set done
+liveTimers['cr2m0'] = 44*60+11;   // Consolation final: 44 min in
+
+// ── Helpers ─────────────────────────────────────────────────────────────
+
+function fmtElapsed(s){ return `${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`; }
+
+function matchScore(m, teamSlot) {
+  if (!m.sets) return '';
+  return m.sets.filter(s => s.s1!==null)
+    .map((s, i) => {
+      const v = teamSlot===1 ? s.s1 : s.s2;
+      const o = teamSlot===1 ? s.s2 : s.s1;
+      const won = setWinner(s) === teamSlot;
+      const stbSet = i===2 && m.stb;
+      return `<span class="bs${won?' w':''}${stbSet?' stb-s':''}">${v}</span>`;
+    }).join('') +
+    (m.superTB && m.superTB.s1!==null
+      ? `<span class="bs stb-s">(${teamSlot===1?m.superTB.s1:m.superTB.s2})</span>` : '');
+}
+
+function nameHtml(name) {
+  if (!searchTerm || name === 'TBD') return name;
+  const idx = name.toLowerCase().indexOf(searchTerm.toLowerCase());
+  if (idx < 0) return name;
+  return name.slice(0, idx) + `<span class="team-highlight">${name.slice(idx, idx+searchTerm.length)}</span>` + name.slice(idx+searchTerm.length);
+}
+
+function matchesSearch(name) {
+  if (!searchTerm) return false;
+  return name.toLowerCase().includes(searchTerm.toLowerCase());
+}
+
+function teamMatchesSearch(t1id, t2id) {
+  const t1 = teamById(t1id), t2 = teamById(t2id);
+  return (t1 && matchesSearch(t1.name)) || (t2 && matchesSearch(t2.name));
+}
+
+// ── RENDER ALL ───────────────────────────────────────────────────────────
+
+function render() {
+  renderStats();
+  renderLiveSection();
+  renderMyTeamBanner();
+  if (currentTab === 'groups') renderGroups();
+  else if (currentTab === 'bracket') renderBracket();
+  else if (currentTab === 'consolation') renderConsolation();
+  else renderSchedule();
+  updateTabCounts();
+}
+
+function renderStats() {
+  const live = [...groupMatches, ...knockoutMatches, ...consolationMatches].filter(m=>m.status==='live').length;
+  const done = [...groupMatches, ...knockoutMatches, ...consolationMatches].filter(m=>m.status==='completed').length;
+  const total = [...groupMatches, ...knockoutMatches, ...consolationMatches].length;
+  const left = total - done - live;
+  document.getElementById('stat-live').textContent = live;
+  document.getElementById('stat-done').textContent = done;
+  document.getElementById('stat-left').textContent = left;
+  const pct = total > 0 ? Math.round((done/total)*100) : 0;
+  document.getElementById('progress-fill').style.width = pct + '%';
+  // Hide live pill if nothing live
+  document.getElementById('top-live-pill').style.display = live > 0 ? 'flex' : 'none';
+}
+
+function updateTabCounts() {
+  const groupTotal = groupMatches.length, groupDone = groupMatches.filter(m=>m.status==='completed').length;
+  document.getElementById('tab-groups-count').textContent = `${groupDone}/${groupTotal}`;
+  const consDone = consolationMatches.filter(m=>m.status==='completed').length;
+  document.getElementById('tab-cons-count').textContent = `${consDone}/${consolationMatches.length}`;
+  const schedTotal = SCHEDULE.length;
+  document.getElementById('tab-sched-count').textContent = schedTotal;
+}
+
+// ── LIVE SECTION ─────────────────────────────────────────────────────────
+
+function renderLiveSection() {
+  const sec = document.getElementById('live-section');
+  const allLive = [...groupMatches, ...knockoutMatches].filter(m => m.status === 'live');
+
+  // When searching: only show live matches involving the searched team
+  const liveMatches = searchTerm
+    ? allLive.filter(m => teamMatchesSearch(m.t1, m.t2))
+    : allLive;
+
+  if (liveMatches.length === 0) { sec.style.display = 'none'; return; }
+  sec.style.display = 'block';
+
+  const label = searchTerm ? 'YOUR MATCH — ON COURT' : 'ON COURT NOW';
+  let html = `<div class="live-section-header">
+    <div class="live-section-title">${label}</div>
+    <span class="live-count-badge">${liveMatches.length} match${liveMatches.length!==1?'es':''} live</span>
+  </div>`;
+
+  liveMatches.forEach(m => {
+    const t1 = teamById(m.t1), t2 = teamById(m.t2);
+    const sched = scheduleFor(m.id);
+    const elapsed = liveTimers[m.id] ? fmtElapsed(liveTimers[m.id]) : '';
+    let a=0,b=0;
+    (m.sets||[]).forEach(s=>{if(s.s1!==null&&s.s2!==null){const w=setWinner(s);if(w===1)a++;else if(w===2)b++;}});
+    const leading = a>b?1:b>a?2:0;
+    const isSearched1 = t1 && matchesSearch(t1.name);
+    const isSearched2 = t2 && matchesSearch(t2.name);
+    const setChips = (slot) => (m.sets||[]).map((s,i) => {
+      const v = slot===1?s.s1:s.s2;
+      const o = slot===1?s.s2:s.s1;
+      if (v===null) return '';
+      const isCurrentSet = i === (m.sets||[]).filter(x=>x.s1!==null).length - 1;
+      const won = o !== null && setWinner(s) === slot;
+      return `<span class="live-set-chip${won?' won':''}${isCurrentSet&&o===null?' current':''}${i===2&&m.stb?' stb':''}">${v}</span>`;
+    }).join('');
+    html += `<div class="live-card">
+      <div class="live-card-header">
+        <div class="live-card-phase">
+          <span class="live-dot"></span>
+          ${matchPhaseLabel(m)}
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          ${sched.courtName ? `<div class="live-card-court">${sched.courtName}</div>` : ''}
+          ${elapsed ? `<div class="live-card-timer">${elapsed}</div>` : ''}
+        </div>
+      </div>
+      <div class="live-score-row">
+        <div class="live-score-team ${leading===1?'leading':''} ${isSearched1?'team-highlight':''}">${t1?nameHtml(t1.name):'TBD'}</div>
+        <div class="live-sets">${setChips(1)}</div>
+      </div>
+      <div class="live-score-row">
+        <div class="live-score-team ${leading===2?'leading':''} ${isSearched2?'team-highlight':''}">${t2?nameHtml(t2.name):'TBD'}</div>
+        <div class="live-sets">${setChips(2)}</div>
+      </div>
+    </div>`;
+  });
+
+  sec.innerHTML = html;
+}
+
+// ── MY TEAM BANNER ───────────────────────────────────────────────────────
+
+function renderMyTeamBanner() {
+  const banner = document.getElementById('my-team-banner');
+  const content = document.getElementById('my-team-content');
+  if (!searchTerm) { banner.classList.remove('visible'); return; }
+
+  const allMatches = [...groupMatches, ...knockoutMatches, ...consolationMatches];
+  const myMatches = allMatches.filter(m => {
+    const t1=teamById(m.t1), t2=teamById(m.t2);
+    return (t1&&matchesSearch(t1.name)) || (t2&&matchesSearch(t2.name));
+  });
+
+  if (myMatches.length === 0) { banner.classList.remove('visible'); return; }
+  banner.classList.add('visible');
+
+  const done = myMatches.filter(m => m.status === 'completed');
+  const live = myMatches.filter(m => m.status === 'live');
+  const pending = myMatches.filter(m => m.status === 'ready' || m.status === 'upcoming');
+  const wins = done.filter(m => {
+    const t1=teamById(m.t1), t2=teamById(m.t2);
+    return (matchesSearch(t1?.name||'') && m.winner===1) || (matchesSearch(t2?.name||'') && m.winner===2);
+  }).length;
+
+  const nextMatch = live[0] || pending[0];
+  const sched = nextMatch ? scheduleFor(nextMatch.id) : null;
+
+  let statusLine = '';
+  if (live.length > 0) {
+    statusLine = `<span style="color:var(--green);font-weight:700;font-size:12px;">● Match in progress</span>`;
+  } else if (pending.length > 0) {
+    const time = sched?.time || '';
+    const court = sched?.courtName || '';
+    statusLine = `<span style="color:var(--text3);font-size:12px;">Next: ${[time, court].filter(Boolean).join(' · ') || 'Upcoming'}</span>`;
+  } else {
+    statusLine = `<span style="color:var(--accent);font-size:12px;">✓ All matches played</span>`;
+  }
+
+  content.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;">
+      <div>
+        <div style="font-size:14px;font-weight:700;color:var(--text);margin-bottom:2px;">${myMatches.length} match${myMatches.length!==1?'es':''} · <span style="color:var(--accent);">${wins} win${wins!==1?'s':''}</span></div>
+        ${statusLine}
+      </div>
+      <button onclick="clearSearch()" style="background:none;border:1px solid var(--border2);color:var(--text3);padding:6px 12px;border-radius:7px;font-family:var(--body);font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .15s;" onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)'" onmouseout="this.style.borderColor='var(--border2)';this.style.color='var(--text3)'">✕ Clear filter</button>
+    </div>`;
+}
+
+// ── GROUPS TAB ───────────────────────────────────────────────────────────
+
+function renderGroups() {
+  const panel = document.getElementById('panel-groups');
+
+  // ── FILTERED VIEW: show only the searched team's group ───────────────────
+  if (searchTerm) {
+    // Find which group the searched team is in
+    const myGroup = groups.find(g =>
+      g.teamIds.some(id => matchesSearch(teamById(id)?.name || ''))
+    );
+
+    if (!myGroup) {
+      panel.innerHTML = `<div class="empty-state"><div class="empty-icon">🔍</div>
+        <div>No team found matching "${escHtml(searchTerm)}"</div>
+        <div style="font-size:11px;margin-top:6px;color:var(--text4);">Try a surname — e.g. "García" or "Torres"</div>
+      </div>`;
+      return;
+    }
+
+    const standings = calcStandings(myGroup);
+    const gms = groupMatches.filter(m => m.group === myGroup.letter);
+    const myGms = gms.filter(m => teamMatchesSearch(m.t1, m.t2));
+    const done = gms.filter(m => m.status === 'completed').length;
+    const total = gms.length;
+    const hasLive = gms.some(m => m.status === 'live');
+    const allDone = done === total;
+    const statusClass = allDone ? 'done' : hasLive ? 'live' : 'pending';
+    const statusLabel = allDone ? 'Complete' : hasLive ? 'Live' : `${done}/${total}`;
+
+    let html = `
+      <!-- GROUP STANDINGS -->
+      <div style="margin-bottom:20px;">
+        <div class="group-block-header" style="margin-bottom:10px;">
+          <div class="group-label">GROUP ${myGroup.letter}</div>
+          <span class="group-status-pill ${statusClass}">${statusLabel}</span>
+        </div>
+        <div class="standings">
+          <div class="standings-head">
+            <div class="standings-head-col">#</div>
+            <div class="standings-head-col left">TEAM</div>
+            <div class="standings-head-col">W</div>
+            <div class="standings-head-col">L</div>
+            <div class="standings-head-col">SD</div>
+            <div class="standings-head-col">GD</div>
+          </div>
+          ${standings.map((s, pos) => {
+            const t = teamById(s.teamId);
+            const isQ = pos < groupConfig.advanceCount;
+            const isCons = pos >= groupConfig.advanceCount && consolationEnabled;
+            const isMe = t && matchesSearch(t.name);
+            const rowClass = isMe ? 'searched-row' : isQ ? 'qualifying' : isCons ? 'consolation' : '';
+            const sd = s.setsWon - s.setsLost;
+            const gd = s.gamesWon - s.gamesLost;
+            return `<div class="standings-row ${rowClass}">
+              <div class="standings-pos">${pos+1}</div>
+              <div class="standings-name">
+                ${t ? nameHtml(t.name) : '—'}
+                ${isQ ? `<span class="qual-badge" style="background:var(--accent)" title="Advances to knockout"></span>` : ''}
+                ${isCons&&!isQ ? `<span class="qual-badge" style="background:var(--silver)" title="Consolation"></span>` : ''}
+              </div>
+              <div class="standings-num ${s.won===s.played?'best':''}">${s.won}</div>
+              <div class="standings-num">${s.lost}</div>
+              <div class="standings-num ${sd>0?'best':''}">${sd>0?'+':''}${sd}</div>
+              <div class="standings-num">${gd>0?'+':''}${gd}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+
+      <!-- YOUR MATCHES IN THIS GROUP -->
+      <div>
+        <div class="section-title" style="margin-bottom:10px;">YOUR MATCHES <span style="color:var(--text4);font-weight:500;">(${myGms.length} total)</span></div>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          ${myGms.map(m => {
+            const t1=teamById(m.t1), t2=teamById(m.t2);
+            const isMe1 = t1 && matchesSearch(t1.name);
+            const isMe2 = t2 && matchesSearch(t2.name);
+            const sched = scheduleFor(m.id);
+            let scoreHtml = '';
+            if (m.status === 'completed' && m.sets) {
+              const sets = m.sets.filter(s=>s.s1!==null).map(s=>`${s.s1}–${s.s2}`).join(', ');
+              const tb = m.superTB&&m.superTB.s1!==null ? ` <span class="mr-stb">(${m.superTB.s1}–${m.superTB.s2})</span>` : '';
+              const myWin = (isMe1&&m.winner===1)||(isMe2&&m.winner===2);
+              scoreHtml = `<div class="mr-score-sets" style="${myWin?'color:var(--accent);':''}">${sets}${tb}</div>
+                <div style="font-size:10px;font-weight:700;margin-top:2px;${myWin?'color:var(--accent);':'color:var(--red);'}">${myWin?'WIN':'LOSS'}</div>`;
+            } else if (m.status === 'live') {
+              scoreHtml = `<div class="mr-score-live">● LIVE</div>`;
+            } else {
+              const time = sched?.time || '';
+              const court = sched?.courtName || '';
+              scoreHtml = `<div class="mr-score-vs">${[time,court].filter(Boolean).join(' · ')||'vs'}</div>`;
+            }
+            return `<div class="match-result-row ${m.status==='completed'?'completed':m.status==='live'?'live':''}" style="border-color:rgba(163,230,53,.3);background:rgba(163,230,53,.03);">
+              <div class="mr-team ${m.winner===1?'winner':''}">${t1?nameHtml(t1.name):'—'}</div>
+              <div class="mr-score">${scoreHtml}</div>
+              <div class="mr-team right ${m.winner===2?'winner':''}">${t2?nameHtml(t2.name):'—'}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>`;
+
+    panel.innerHTML = html;
+    return;
+  }
+
+  // ── DEFAULT VIEW: show all groups ────────────────────────────────────────
+  let html = '';
+  groups.forEach(g => {
+    const standings = calcStandings(g);
+    const gms = groupMatches.filter(m => m.group === g.letter);
+    const done = gms.filter(m => m.status === 'completed').length;
+    const total = gms.length;
+    const hasLive = gms.some(m => m.status === 'live');
+    const allDone = done === total;
+    const statusClass = allDone ? 'done' : hasLive ? 'live' : 'pending';
+    const statusLabel = allDone ? 'Complete' : hasLive ? 'Live' : `${done}/${total}`;
+
+    html += `<div class="group-block">
+      <div class="group-block-header">
+        <div class="group-label">GROUP ${g.letter}</div>
+        <span class="group-status-pill ${statusClass}">${statusLabel}</span>
+      </div>
+      <div>
+        <div class="standings">
+          <div class="standings-head">
+            <div class="standings-head-col">#</div>
+            <div class="standings-head-col left">TEAM</div>
+            <div class="standings-head-col">W</div>
+            <div class="standings-head-col">L</div>
+            <div class="standings-head-col">SD</div>
+            <div class="standings-head-col">GD</div>
+          </div>
+          ${standings.map((s, pos) => {
+            const t = teamById(s.teamId);
+            const isQ = pos < groupConfig.advanceCount;
+            const isCons = pos >= groupConfig.advanceCount && consolationEnabled;
+            const rowClass = isQ ? 'qualifying' : isCons ? 'consolation' : '';
+            const sd = s.setsWon - s.setsLost;
+            const gd = s.gamesWon - s.gamesLost;
+            return `<div class="standings-row ${rowClass}">
+              <div class="standings-pos">${pos+1}</div>
+              <div class="standings-name">
+                ${t ? t.name : '—'}
+                ${isQ ? `<span class="qual-badge" style="background:var(--accent)"></span>` : ''}
+                ${isCons&&!isQ ? `<span class="qual-badge" style="background:var(--silver)"></span>` : ''}
+              </div>
+              <div class="standings-num ${s.won===s.played?'best':''}">${s.won}</div>
+              <div class="standings-num">${s.lost}</div>
+              <div class="standings-num ${sd>0?'best':''}">${sd>0?'+':''}${sd}</div>
+              <div class="standings-num">${gd>0?'+':''}${gd}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+      <div class="group-matches-section">
+        <button class="group-matches-toggle" onclick="toggleGroupMatches('${g.letter}')">
+          ▸ <span id="toggle-label-${g.letter}">Show matches</span>
+        </button>
+        <div class="group-matches-list" id="gm-list-${g.letter}">
+          ${gms.map(m => {
+            const t1=teamById(m.t1),t2=teamById(m.t2);
+            const rowClass = m.status==='completed'?'completed':m.status==='live'?'live':'';
+            let scoreHtml = '';
+            if (m.status === 'completed' && m.sets) {
+              const sets = m.sets.filter(s=>s.s1!==null).map(s=>`${s.s1}–${s.s2}`).join(', ');
+              const tb = m.superTB&&m.superTB.s1!==null ? ` <span class="mr-stb">(${m.superTB.s1}–${m.superTB.s2})</span>` : '';
+              scoreHtml = `<div class="mr-score-sets">${sets}${tb}</div>`;
+            } else if (m.status === 'live') {
+              scoreHtml = `<div class="mr-score-live">● LIVE</div>`;
+            } else {
+              scoreHtml = `<div class="mr-score-vs">vs</div>`;
+            }
+            return `<div class="match-result-row ${rowClass}">
+              <div class="mr-team ${m.winner===1?'winner':''}">${t1?t1.name:'—'}</div>
+              <div class="mr-score">${scoreHtml}</div>
+              <div class="mr-team right ${m.winner===2?'winner':''}">${t2?t2.name:'—'}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+    </div>`;
+  });
+  panel.innerHTML = html;
+}
+
+function escHtml(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+// ── BRACKET TAB ──────────────────────────────────────────────────────────
+
+function toggleGroupMatches(letter) {
+  const list = document.getElementById(`gm-list-${letter}`);
+  const btn = document.querySelector(`[onclick="toggleGroupMatches('${letter}')"]`);
+  if (!list || !btn) return;
+  const open = list.classList.toggle('open');
+  btn.textContent = open ? `▾ Hide matches` : `▸ Show matches`;
+}
+
+function renderBracketPanel(matches, prefix, isCons, panelId) {
+  const panel = document.getElementById(panelId);
+  const allGroupsDone = groupMatches.every(m => m.status === 'completed');
+
+  if (!allGroupsDone) {
+    // If searching, explain specifically whether team will qualify
+    let lockMsg = `${groupMatches.filter(m=>m.status==='completed').length} / ${groupMatches.length} group matches done`;
+    if (searchTerm) {
+      const myGroup = groups.find(g => g.teamIds.some(id => matchesSearch(teamById(id)?.name||'')));
+      if (myGroup) {
+        const standings = calcStandings(myGroup);
+        const myPos = standings.findIndex(s => matchesSearch(teamById(s.teamId)?.name||''));
+        const willQualify = myPos >= 0 && myPos < groupConfig.advanceCount;
+        const willConsolation = myPos >= groupConfig.advanceCount && consolationEnabled;
+        lockMsg += willQualify
+          ? ` — <span style="color:var(--accent)">currently qualifying (${myPos+1}${ordinal(myPos+1)} in Group ${myGroup.letter})</span>`
+          : willConsolation
+          ? ` — <span style="color:var(--silver)">currently consolation bracket position</span>`
+          : ` — <span style="color:var(--text3)">Group ${myGroup.letter} position ${myPos+1}</span>`;
+      }
+    }
+    panel.innerHTML = `<div class="empty-state"><div class="empty-icon">🔒</div>
+      <div>Bracket available once all group matches are complete</div>
+      <div style="font-size:11px;margin-top:6px;color:var(--text4);">${lockMsg}</div>
+    </div>`;
+    return;
+  }
+
+  // Check if searched team appears in this bracket at all
+  const teamInBracket = searchTerm && matches.some(m =>
+    (m.t1 && matchesSearch(teamById(m.t1)?.name||'')) ||
+    (m.t2 && matchesSearch(teamById(m.t2)?.name||''))
+  );
+
+  const rounds = Math.max(...matches.map(m=>m.round)) + 1;
+  const finalMatch = matches.find(m => m.round === rounds-1);
+  const champion = finalMatch?.winner ? teamById(finalMatch.winner===1?finalMatch.t1:finalMatch.t2) : null;
+
+  let html = '';
+
+  if (champion) {
+    html += `<div class="trophy-section">
+      <div class="trophy-card-pub ${isCons?'silver':'gold'}">
+        <div class="trophy-icon-pub">${isCons?'🥈':'🏆'}</div>
+        <div class="trophy-label-pub">${isCons?'CONSOLATION CHAMPION':'CHAMPION'}</div>
+        <div class="trophy-name-pub">${nameHtml(champion.name)}</div>
+      </div>
+    </div>`;
+  }
+
+  // When searching: show a banner at top indicating whether team is in this bracket
+  if (searchTerm) {
+    if (!teamInBracket) {
+      const bracketName = isCons ? 'consolation bracket' : 'knockout bracket';
+      html += `<div style="margin-bottom:16px;padding:10px 14px;background:var(--bg2);border:1px solid var(--border);border-radius:8px;font-size:12px;color:var(--text3);">
+        Your team is not in this ${bracketName} — showing full bracket for context.
+      </div>`;
+    } else {
+      const bracketName = isCons ? 'Consolation Bracket' : 'Knockout Bracket';
+      html += `<div style="margin-bottom:16px;padding:10px 14px;background:rgba(163,230,53,.05);border:1px solid rgba(163,230,53,.2);border-radius:8px;font-size:12px;color:var(--accent);font-weight:600;">
+        ✓ Your team is in the ${bracketName} — highlighted below
+      </div>`;
+    }
+  }
+
+  html += `<div class="bracket-scroll"><div class="bracket-rounds">`;
+  for (let r = 0; r < rounds; r++) {
+    const rm = matches.filter(m => m.round === r).sort((a,b) => a.pos-b.pos);
+    const useSTB = isCons ? consTiebreak[`r${r}`]!==false : koTiebreak[`r${r}`]!==false;
+    const roundLabel = getRoundTitle(r, rounds, isCons);
+    html += `<div class="bracket-round">
+      <div class="bracket-round-label ${useSTB?'stb-round':'full-round'}">${useSTB?'⚡ ':'🎾 '}${roundLabel}</div>`;
+    rm.forEach((m, idx) => {
+      const t1=teamById(m.t1), t2=teamById(m.t2);
+      const isSearched1 = t1 && matchesSearch(t1.name);
+      const isSearched2 = t2 && matchesSearch(t2.name);
+      const matchHasMe = isSearched1 || isSearched2;
+      const cardClass = m.status==='completed'?'completed':m.status==='live'?'live-match':'upcoming-match';
+      // When searching: dim matches that don't involve the searched team
+      const dimStyle = searchTerm && !matchHasMe ? 'opacity:.35;' : '';
+      if (idx > 0) html += `<div class="bracket-connector-row"></div>`;
+      html += `<div class="bracket-match ${cardClass}" style="${dimStyle}">
+        <div class="bracket-match-team ${m.winner===1?isCons?'winner-silver':'winner':m.winner===2?'loser':!t1?'tbd':''} ${isSearched1?'searched-bracket':''}">
+          <span class="bracket-team-name">${t1?nameHtml(t1.name):'TBD'}</span>
+          <span class="bracket-team-score">${matchScore(m,1)}</span>
+        </div>
+        <div class="bracket-match-team ${m.winner===2?isCons?'winner-silver':'winner':m.winner===1?'loser':!t2?'tbd':''} ${isSearched2?'searched-bracket':''}">
+          <span class="bracket-team-name">${t2?nameHtml(t2.name):'TBD'}</span>
+          <span class="bracket-team-score">${matchScore(m,2)}</span>
+        </div>
+      </div>`;
+    });
+    html += `</div>`;
+  }
+  html += `</div></div>`;
+  panel.innerHTML = html;
+}
+
+function ordinal(n) { return n===1?'st':n===2?'nd':n===3?'rd':'th'; }
+
+function renderBracket() { renderBracketPanel(knockoutMatches,'k',false,'panel-bracket'); }
+function renderConsolation() { renderBracketPanel(consolationMatches,'c',true,'panel-consolation'); }
+
+const KO_LABELS = { 1:['FINAL'],2:['SEMIS','FINAL'],3:['QF','SF','FINAL'],4:['R16','QF','SF','FINAL'] };
+const CONS_LABELS = { 1:['CONS. FINAL'],2:['CONS. SF','CONS. FINAL'],3:['CONS. QF','CONS. SF','CONS. FINAL'] };
+function getRoundTitle(r, total, isCons) {
+  return ((isCons?CONS_LABELS:KO_LABELS)[total]||[])[r] || `ROUND ${r+1}`;
+}
+
+// Returns a human-readable phase label for any match:
+//   group stage  → "Group A · Round Robin"
+//   knockout     → "Quarterfinal", "Semifinal", "Final"
+//   consolation  → "Consolation QF", "Consolation SF", "Consolation Final"
+function matchPhaseLabel(m) {
+  if (m.group) return `Group ${m.group} · Round Robin`;
+  if (m.round === undefined || m.round === null) return '';
+  const isCons = m.id && m.id.startsWith('c');
+  const arr = isCons ? consolationMatches : knockoutMatches;
+  const totalRounds = arr.length ? Math.max(...arr.map(x => x.round)) + 1 : 1;
+  // Use full readable names instead of abbreviations for display in live/result cards
+  const KO_FULL  = { 1:['Final'], 2:['Semifinal','Final'], 3:['Quarterfinal','Semifinal','Final'], 4:['Round of 16','Quarterfinal','Semifinal','Final'] };
+  const CON_FULL = { 1:['Consolation Final'], 2:['Consolation Semifinal','Consolation Final'], 3:['Consolation QF','Consolation Semifinal','Consolation Final'] };
+  return ((isCons ? CON_FULL : KO_FULL)[totalRounds] || [])[m.round] || `Round ${m.round + 1}`;
+}
+
+// ── SCHEDULE TAB ─────────────────────────────────────────────────────────
+
+function renderSchedule() {
+  const panel = document.getElementById('panel-schedule');
+  const allMatches = [...groupMatches, ...knockoutMatches, ...consolationMatches];
+
+  // Build filtered entry list
+  const entries = SCHEDULE
+    .map(s => {
+      const m = allMatches.find(x => x.id === s.matchId);
+      if (!m) return null;
+      return { ...s, match: m };
+    })
+    .filter(e => {
+      if (!e) return false;
+      if (searchTerm) return teamMatchesSearch(e.match.t1, e.match.t2);
+      return true;
+    });
+
+  if (entries.length === 0) {
+    panel.innerHTML = searchTerm
+      ? `<div class="empty-state"><div class="empty-icon">📅</div>
+          <div>No scheduled matches found for "${escHtml(searchTerm)}"</div>
+          <div style="font-size:11px;margin-top:6px;color:var(--text4);">Check the spelling or try a different name</div>
+        </div>`
+      : `<div class="empty-state"><div class="empty-icon">📅</div>No schedule available yet</div>`;
+    return;
+  }
+
+  const koRounds = knockoutMatches.length ? Math.max(...knockoutMatches.map(x=>x.round))+1 : 1;
+  const consRounds = consolationMatches.length ? Math.max(...consolationMatches.map(x=>x.round))+1 : 1;
+
+  // Group by date, then by time within each date
+  // Preserve insertion order (dates appear in the order they first appear in SCHEDULE)
+  const byDate = {};
+  const dateOrder = [];
+  entries.forEach(e => {
+    const d = e.date || 'Unknown';
+    if (!byDate[d]) { byDate[d] = {}; dateOrder.push(d); }
+    const t = e.time || '--:--';
+    if (!byDate[d][t]) byDate[d][t] = [];
+    byDate[d][t].push(e);
+  });
+
+  const header = searchTerm
+    ? `<div class="section-title" style="margin-bottom:16px;">YOUR SCHEDULE <span style="color:var(--text4);font-weight:500;">(${entries.length} match${entries.length!==1?'es':''})</span></div>`
+    : '';
+
+  let html = header;
+
+  // Deduplicated date order from SCHEDULE array (preserve tournament day order)
+  const orderedDates = [...new Set(SCHEDULE.map(s => s.date))].filter(d => byDate[d]);
+
+  orderedDates.forEach(date => {
+    const timeMap = byDate[date];
+    const allEntries = Object.values(timeMap).flat();
+
+    // Determine day status
+    const hasLive = allEntries.some(e => e.match.status === 'live');
+    const allDone = allEntries.every(e => e.match.status === 'completed');
+    const dayBadge = hasLive
+      ? `<span class="schedule-day-badge live-day">● LIVE</span>`
+      : allDone
+      ? `<span class="schedule-day-badge done-day">✓ Complete</span>`
+      : `<span class="schedule-day-badge upcoming-day">Upcoming</span>`;
+
+    html += `<div class="schedule-day-block">
+      <div class="schedule-day-header">
+        <div class="schedule-day-label ${hasLive ? 'today' : ''}">${date}</div>
+        ${dayBadge}
+        <div style="font-size:10px;color:var(--text4);margin-left:auto;">${allEntries.length} match${allEntries.length!==1?'es':''}</div>
+      </div>`;
+
+    // Sort times within the day
+    const sortedTimes = Object.keys(timeMap).sort((a, b) => {
+      if (a === '--:--') return 1; if (b === '--:--') return -1;
+      return a.localeCompare(b);
+    });
+
+    sortedTimes.forEach(time => {
+      html += `<div class="schedule-time-group">
+        <div class="schedule-time-header">
+          <span style="font-size:13px;">⏰</span> ${time === '--:--' ? 'Time TBD' : time}
+        </div>`;
+
+      timeMap[time].forEach(e => {
+        const m = e.match;
+        const t1 = teamById(m.t1), t2 = teamById(m.t2);
+        const isMe1 = t1 && matchesSearch(t1.name);
+        const isMe2 = t2 && matchesSearch(t2.name);
+        let statusHtml = '', scoreHtml = '';
+
+        if (m.status === 'completed') {
+          const myWin = (isMe1&&m.winner===1)||(isMe2&&m.winner===2);
+          statusHtml = searchTerm
+            ? `<div class="sched-status done" style="${myWin?'color:var(--accent);':'color:var(--red);'}">${myWin?'✓ Win':'✗ Loss'}</div>`
+            : `<div class="sched-status done">✓ Done</div>`;
+          const sets = (m.sets||[]).filter(s=>s.s1!==null).map(s=>`${s.s1}–${s.s2}`).join(' ');
+          const tb = m.superTB&&m.superTB.s1!==null ? ` (${m.superTB.s1}–${m.superTB.s2})` : '';
+          scoreHtml = `<div class="sched-score">${sets}${tb}</div>`;
+        } else if (m.status === 'live') {
+          statusHtml = `<div class="sched-status live">● Live</div>`;
+        } else {
+          statusHtml = `<div class="sched-status">Scheduled</div>`;
+        }
+
+        // Phase label — handle both KO and consolation
+        let phase = '';
+        if (m.group) {
+          phase = `Group ${m.group}`;
+        } else if (m.round !== undefined) {
+          const isCons = m.id?.startsWith('c');
+          const rounds = isCons ? consRounds : koRounds;
+          phase = getRoundTitle(m.round, rounds, isCons);
+        }
+
+        html += `<div class="sched-item ${m.status==='completed'?'completed':m.status==='live'?'live-sched':''} ${searchTerm?'searched-sched':''}">
+          <div class="sched-item-left">
+            <div class="sched-phase">${phase}</div>
+            <div class="sched-teams">${t1?nameHtml(t1.name):'TBD'} <span class="sched-vs">vs</span> ${t2?nameHtml(t2.name):'TBD'}</div>
+          </div>
+          <div class="sched-right">${statusHtml}${scoreHtml}<div class="sched-court">${e.courtName}</div></div>
+        </div>`;
+      });
+
+      html += `</div>`;
+    });
+
+    html += `</div>`;
+  });
+
+  panel.innerHTML = html;
+}
+
+// ── SEARCH ───────────────────────────────────────────────────────────────
+
+function handleSearch(val) {
+  searchTerm = val.trim();
+  document.getElementById('search-clear').style.display = searchTerm ? 'block' : 'none';
+  // When a search starts, always go to the Groups tab first —
+  // it's the most useful starting point (your group + your matches)
+  if (searchTerm && currentTab !== 'groups' && currentTab !== 'bracket' && currentTab !== 'consolation') {
+    switchTab('groups');
+    return; // switchTab calls render()
+  }
+  render();
+  if (searchTerm) {
+    setTimeout(() => {
+      const banner = document.getElementById('my-team-banner');
+      if (banner.classList.contains('visible')) {
+        banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    }, 60);
+  }
+}
+
+function clearSearch() {
+  document.getElementById('team-search').value = '';
+  handleSearch('');
+}
+
+// ── TAB SWITCHING ─────────────────────────────────────────────────────────
+
+function switchTab(tab) {
+  currentTab = tab;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+  ['groups','bracket','consolation','schedule'].forEach(t => {
+    document.getElementById(`panel-${t}`).style.display = t === tab ? 'block' : 'none';
+  });
+  // Render on demand
+  if (tab === 'groups') renderGroups();
+  else if (tab === 'bracket') renderBracket();
+  else if (tab === 'consolation') renderConsolation();
+  else renderSchedule();
+}
+
+// ── SHARE ────────────────────────────────────────────────────────────────
+
+function shareUrl() {
+  const url = window.location.href;
+  if (navigator.share) {
+    navigator.share({ title: 'Copa Tegucigalpa Open', text: 'Follow the live tournament results', url })
+      .catch(() => copyToClipboard(url));
+  } else {
+    copyToClipboard(url);
+  }
+}
+
+function copyToClipboard(text) {
+  navigator.clipboard?.writeText(text).then(() => showToast('🔗 Link copied!')).catch(() => showToast('🔗 Copy: ' + text));
+}
+
+function showToast(msg) {
+  const existing = document.querySelector('.toast');
+  if (existing) existing.remove();
+  const t = document.createElement('div');
+  t.className = 'toast';
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => { t.style.opacity='0'; t.style.transition='opacity .3s'; }, 2000);
+  setTimeout(() => t.remove(), 2500);
+}
+
+// ── TICK ─────────────────────────────────────────────────────────────────
+
+function tick() {
+  Object.keys(liveTimers).forEach(id => liveTimers[id]++);
+  renderLiveSection();
+  renderStats();
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+
+regenerateAll();
+render();
+setInterval(tick, 1000);
+</script>
+</body>
+</html>
